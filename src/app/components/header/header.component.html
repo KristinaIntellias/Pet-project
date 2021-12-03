@@ -1,0 +1,18 @@
+<nav class="nav-header">
+  <a [routerLink]="['/']" class="nav-header__logo">My Blog</a>
+  <ul class="nav-header__menu">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-header__menu-item"><a [routerLink]="['/']">Home</a></li>
+    <li routerLinkActive="active" class="nav-header__menu-item">
+      <a href="#" class="item-with-icon">
+        <img
+          class="icon"
+          src="assets/imgs/pencil-writing.png"
+          width="16"
+          height="16"
+        />
+        <span>New Article</span>
+      </a></li>
+    <li routerLinkActive="active" class="nav-header__menu-item"><a href="#">User Name</a></li>
+  </ul>
+</nav>
+

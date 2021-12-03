@@ -1,0 +1,35 @@
+@import "../../../assets/styles/variables";
+
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0 70px 5px;
+  &__logo {
+    font-size: 24px;
+    font-weight: 900;
+    color: $main-green;
+  }
+  &__menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & .active {
+      color: $dark-gray;
+    }
+    &-item {
+      padding: 0 16px;
+      font-size: 16px;
+      color: $main-gray;
+      & .item-with-icon {
+        display: flex;
+        align-items: center;
+        & .icon {
+          filter: opacity(0.5);
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}
+

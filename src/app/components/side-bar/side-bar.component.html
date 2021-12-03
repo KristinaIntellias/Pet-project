@@ -1,0 +1,7 @@
+<div class="side-bar-wrapper">
+  <ng-container *ngIf="!!text; else initText" class="text">{{text}}</ng-container>
+  <ng-template #initText>
+    <p class="text">{{initialText.split(' ', 2).join(' ')}}</p>
+    <p class="text">{{initialText.split(' ').slice(2).join(' ')}}</p>
+  </ng-template>
+</div>

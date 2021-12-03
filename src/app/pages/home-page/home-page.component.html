@@ -1,0 +1,9 @@
+<div class="container">
+  <app-article
+    *ngFor="let article of articles"
+    [article]="article"
+    (actionEvent)="articleEvent.emit(article.favorite)"
+  ></app-article>
+</div>
+<app-side-bar [text]="sideBarText"></app-side-bar>
+
