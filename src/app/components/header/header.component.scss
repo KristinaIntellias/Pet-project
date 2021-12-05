@@ -24,6 +24,7 @@
       & .item-with-icon {
         display: flex;
         align-items: center;
+        cursor: pointer;
         & .icon {
           filter: opacity(0.5);
           margin-right: 4px;

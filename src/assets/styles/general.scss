@@ -20,4 +20,8 @@ a {
 body {
   padding: 0 15px;
   font-family: "DejaVuSansRegular", sans-serif;
+
+  .cdk-overlay-container .mat-dialog-container {
+    background-color: grey;
+  }
 }

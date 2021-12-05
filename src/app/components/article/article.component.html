@@ -12,7 +12,9 @@
         <span class="date">{{article.date | date:'MMMM d, yyyy'}}</span>
       </div>
     </div>
-    <div class="head-line__favorites {{!article.favorite ? 'white' : 'green'}}" (click)="addFavorite()">
+    <div class="head-line__favorites {{!article.favorite ? 'white' : 'green'}}"
+         (click)="increaseFavorite.emit({id: this.article.id, favorite: this.article.favorite + 1})"
+    >
       <svg-icon [src]="heart" class="icon"></svg-icon>
       <span class="amount">{{article.favorite}}</span>
     </div>
