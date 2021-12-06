@@ -14,13 +14,14 @@ export class ArticlesService {
     return of(this.articles);
   }
 
-  addArticles(article: ArticleWithoutId): void {
+  addArticles(article: ArticleWithoutId): Observable<Article[]> {
     const newArticle = {id: Math.random().toString(36).substr(2, 5), ...article};
     this.articles = [...this.articles, newArticle];
+    return of(this.articles);
   }
 
-  increaseFavorite(id: string, favorite: number): void {
+  increaseFavorite(id: string, favorite: number): Observable<Article[]> {
     this.articles = this.articles.map((article: Article) => article.id === id ? {...article, favorite} : article);
-    console.log('increase', this.articles)
+    return of(this.articles);
   }
 }
