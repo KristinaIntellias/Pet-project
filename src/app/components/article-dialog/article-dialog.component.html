@@ -1,6 +1,6 @@
-<h2>Adding a new article</h2>
+<h2 class="article-dialog-title">Adding a new article</h2>
 
-<form class="tab-pane-form" [formGroup]="form">
+<form class="article-dialog-form" [formGroup]="form">
   <mat-form-field hintLabel="Min 2 characters" appearance="fill">
     <mat-label>Enter author</mat-label>
     <input matInput #author formControlName="author">
@@ -8,7 +8,7 @@
     <mat-error *ngIf="form.get('author')?.invalid && form.get('author')?.touched">
       <small *ngIf="form.get('author')?.errors?.['required']">Required field</small>
       <small *ngIf="form.get('author')?.errors?.['minlength']">
-        Min length should be {{ form.get("author")?.errors?.['minlength']['requiredLength'] }} numbers
+        Min length should be {{ form.get("author")?.errors?.['minlength']['requiredLength'] }} symbols
       </small>
     </mat-error>
   </mat-form-field>
@@ -33,8 +33,11 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Enter content</mat-label>
-    <input matInput formControlName="content">
+    <textarea matInput formControlName="content"></textarea>
   </mat-form-field>
 </form>
-<button mat-button [disabled]="form.invalid" (click)="submit()">Save</button>
-<button mat-button (click)="cancel()">Close</button>
+
+<div class="article-dialog-buttons">
+  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submit()">Save</button>
+  <button mat-raised-button color="primary" (click)="cancel()">Close</button>
+</div>

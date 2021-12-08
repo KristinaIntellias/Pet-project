@@ -1,12 +1,7 @@
 <div class="article-wrapper">
   <div class="head-line">
     <div class="head-line__content content">
-      <img
-        class="content__icon"
-        src="assets/imgs/icon-laughing.png"
-        width="50"
-        height="50"
-      />
+      <mat-icon class="content__icon">mood</mat-icon>
       <div class="content__text">
         <span class="author">{{article.author}}</span>
         <span class="date">{{article.date | date:'MMMM d, yyyy'}}</span>
@@ -15,7 +10,7 @@
     <div class="head-line__favorites {{!article.favorite ? 'white' : 'green'}}"
          (click)="increaseFavorite.emit({id: this.article.id, favorite: this.article.favorite + 1})"
     >
-      <svg-icon [src]="heart" class="icon"></svg-icon>
+      <mat-icon svgIcon="heart"></mat-icon>
       <span class="amount">{{article.favorite}}</span>
     </div>
   </div>

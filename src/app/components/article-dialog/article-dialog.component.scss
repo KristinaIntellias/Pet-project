@@ -1,0 +1,45 @@
+@import "../../../styles/variables";
+
+.article-dialog-title {
+  text-align: center;
+}
+
+.article-dialog-form {
+  display: flex;
+  flex-direction: column;
+  .mat-form-field {
+    min-width: 40vw;
+    margin: 10px 0;
+  }
+  ::ng-deep {
+    .mat-focused .mat-form-field-ripple {
+      background-color: $light-green !important;
+    }
+    .mat-form-field.mat-form-field-invalid .mat-form-field-ripple {
+      background-color: $main-orange !important;
+    }
+
+    .mat-focused .mat-form-field-label {
+      color: $light-green !important;
+    }
+
+    .mat-form-field.mat-form-field-invalid .mat-form-field-label,
+    .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker,
+    .mat-form-field.mat-form-field-invalid .mat-error {
+      color: $main-orange !important;
+    }
+    .mat-warn .mat-input-element,
+    .mat-form-field-invalid .mat-input-element {
+      caret-color: $main-orange !important;
+    }
+  }
+}
+
+.article-dialog-buttons {
+  text-align: center;
+  .mat-raised-button.mat-primary {
+    margin: 0 10px;
+    padding: 0 40px;
+    background-color: $light-green;
+  }
+}

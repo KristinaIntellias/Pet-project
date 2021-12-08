@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { Article } from "../../models/article.model";
 import { icons } from "../../constants/icons";
@@ -9,8 +11,18 @@ import { icons } from "../../constants/icons";
   styleUrls: ['./article.component.scss'],
 })
 export class ArticleComponent {
+  heart = icons.heart;
+
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer,
+  ){
+    this.matIconRegistry.addSvgIcon(
+      'heart',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(this.heart)
+    );
+  }
+
   @Input() article!: Article;
   @Output() increaseFavorite = new EventEmitter<{id: string, favorite: number}>();
-
-  heart = icons.heart;
 }
