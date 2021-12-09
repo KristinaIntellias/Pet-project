@@ -12,5 +12,5 @@ export class ArticleComponent {
   @Input() article!: Article;
   @Output() increaseFavorite = new EventEmitter<{id: string, favorite: number}>();
 
-  heart = icons.heart;
+  public heart = icons.heart;
 }

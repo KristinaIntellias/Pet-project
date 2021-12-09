@@ -9,5 +9,5 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 export class SideBarComponent {
   @Input() text!: string;
 
-  initialText = `Popular Tags No tags are here... yet.`;
+  public initialText = `Popular Tags No tags are here... yet.`;
 }
