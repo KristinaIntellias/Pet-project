@@ -1,15 +1,12 @@
-<h2 class="article-dialog-title">Adding a new article</h2>
+<h2>Adding a new article</h2>
 
-<form class="article-dialog-form" [formGroup]="form">
+<form class="tab-pane-form" [formGroup]="form">
   <mat-form-field hintLabel="Min 2 characters" appearance="fill">
     <mat-label>Enter author</mat-label>
     <input matInput #author formControlName="author">
     <mat-hint align="end">{{author.value?.length || 0}}</mat-hint>
     <mat-error *ngIf="form.get('author')?.invalid && form.get('author')?.touched">
-      <small *ngIf="form.get('author')?.errors?.['required']">Required field</small>
-      <small *ngIf="form.get('author')?.errors?.['minlength']">
-        Min length should be {{ form.get("author")?.errors?.['minlength']['requiredLength'] }} symbols
-      </small>
+      <small>{{getErrorMessage('author')}}</small>
     </mat-error>
   </mat-form-field>
 
@@ -18,7 +15,7 @@
     <input matInput #title maxlength="60" formControlName="title">
     <mat-hint align="end">{{title.value?.length || 0}}/60</mat-hint>
     <mat-error *ngIf="form.get('title')?.invalid && form.get('title')?.touched">
-      <small *ngIf="form.get('title')?.errors?.['required']">Required field</small>
+      <small>{{getErrorMessage('title')}}</small>
     </mat-error>
   </mat-form-field>
 
@@ -27,17 +24,14 @@
     <input matInput #description maxlength="200" formControlName="description">
     <mat-hint align="end">{{description.value?.length || 0}}/200</mat-hint>
     <mat-error *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
-      <small *ngIf="form.get('description')?.errors?.['required']">Required field</small>
+      <small>{{getErrorMessage('description')}}</small>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Enter content</mat-label>
-    <textarea matInput formControlName="content"></textarea>
+    <input matInput formControlName="content">
   </mat-form-field>
 </form>
-
-<div class="article-dialog-buttons">
-  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submit()">Save</button>
-  <button mat-raised-button color="primary" (click)="cancel()">Close</button>
-</div>
+<button mat-button [disabled]="form.invalid" (click)="submit()">Save</button>
+<button mat-button (click)="cancel()">Close</button>

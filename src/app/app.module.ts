@@ -2,44 +2,29 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from "@angular/common/http";
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from "@angular/material/icon";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
+import { SharedModule } from './shared/shared.module';
+import { FeatureModule } from './shared/feature.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ArticleComponent } from './components/article/article.component';
-import { SideBarComponent } from './components/side-bar/side-bar.component';
-import { HomePageComponent } from "./pages/home-page/home-page.component";
-import { ArticleDialogComponent } from './components/article-dialog/article-dialog.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ArticleListComponent } from './components/article-list/article-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomePageComponent,
-    ArticleComponent,
-    SideBarComponent,
-    ArticleDialogComponent
+    ArticleListComponent,
   ],
   imports: [
     BrowserModule,
-    CommonModule,
+    SharedModule,
+    FeatureModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    NoopAnimationsModule,
+    AngularSvgIconModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

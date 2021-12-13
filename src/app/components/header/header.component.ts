@@ -1,11 +1,11 @@
-import {Component, EventEmitter, OnDestroy, Output} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { filter, switchMap } from "rxjs/operators";
 
 import { ArticleDialogComponent } from "../article-dialog/article-dialog.component";
 import { ArticlesService } from "../../services/articles.service";
-import { Article, ArticleWithoutId } from "../../models/article.model";
+import { ArticleWithoutId } from "../../models/article.model";
 
 @Component({
   selector: 'app-header',
@@ -17,20 +17,17 @@ export class HeaderComponent implements OnDestroy {
 
   private sub!: Subscription;
 
-  @Output() increaseArticle = new EventEmitter<Article[]>();
-
   openArticleDialog(): void {
     const articleDialogComponent = this.dialog.open(ArticleDialogComponent);
 
     this.sub = articleDialogComponent.afterClosed()
       .pipe(
+        filter((article: ArticleWithoutId) => !!article),
         switchMap((article: ArticleWithoutId) => this.articlesService.addArticles(article))
-      )
-      .subscribe((articles: Article[]) => this.increaseArticle.emit(articles));
+      ).subscribe();
   };
 
   ngOnDestroy (): void {
     this.sub?.unsubscribe();
   }
-
 }
