@@ -12,6 +12,7 @@ import { icons } from "../../constants/icons";
 })
 export class ArticleComponent {
   heart = icons.heart;
+  pencil = icons.pencil;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -21,8 +22,13 @@ export class ArticleComponent {
       'heart',
       this.domSanitizer.bypassSecurityTrustResourceUrl(this.heart)
     );
+    this.matIconRegistry.addSvgIcon(
+      'pencil',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(this.pencil)
+    );
   }
 
   @Input() article!: Article;
-  @Output() increaseFavorite = new EventEmitter<{id: string, favorite: number}>();
+  @Output() increaseFavorite = new EventEmitter<Article>();
+  @Output() openArticleDialog = new EventEmitter<Article>();
 }

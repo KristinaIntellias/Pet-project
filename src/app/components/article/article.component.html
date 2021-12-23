@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="head-line__favorites {{!article.favorite ? 'white' : 'green'}}"
-         (click)="increaseFavorite.emit({id: article.id, favorite: article.favorite + 1})"
+         (click)="increaseFavorite.emit(article)"
     >
       <mat-icon svgIcon="heart"></mat-icon>
       <span class="amount">{{article.favorite}}</span>
@@ -17,5 +17,13 @@
 
   <p class="title">{{article.title}}</p>
   <p class="description">{{article.description}}</p>
-  <a href="#" class="details">Read more...</a>
+  <div class="bottom-line">
+    <a href="#" class="details">Read more...</a>
+    <div class="edit-article"
+         (click)="openArticleDialog.emit(article)"
+    >
+      <mat-icon svgIcon="pencil"></mat-icon>
+      <span class="edit-article__text">Edit article</span>
+    </div>
+  </div>
 </div>
