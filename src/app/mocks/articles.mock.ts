@@ -2,7 +2,7 @@ import {Article} from "../models/article.model";
 
 export const articles: Article[] = [
   {
-    id: '1',
+    _id: '1',
     author: 'John Dow',
     date: Date.now(),
     title: 'NATURAL LANGUAGE INTERFACE ACCESSIBILITY',
@@ -10,7 +10,7 @@ export const articles: Article[] = [
     favorite: 0,
     },
   {
-    id: '2',
+    _id: '2',
     author: 'John Dow',
     date: Date.now(),
     title: 'Accessibility of Remote Meetings',

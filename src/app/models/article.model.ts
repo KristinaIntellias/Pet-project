@@ -1,11 +1,10 @@
 export interface Article {
-  id: string;
+  _id?: string;
   author: string;
   date: number;
   title: string;
   description: string;
   content?: string;
+  userId?: string;
   favorite: number;
 }
-
-export type ArticleWithoutId = Omit<Article, 'id'>
