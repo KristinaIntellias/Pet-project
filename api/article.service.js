@@ -8,12 +8,10 @@ class ArticleService {
 
   async getAll() {
     const articles = await Article
-      .find()
-      .sort({author: -1, favorite: -1});
-    //   .aggregate([
-    //   { $match: { author: "John Dow" }}
-    // ])
-    //   .sort({title: 1})
+      .aggregate([
+        { $match: { date: { $gte: 1640532829147 } } }
+    ])
+      .sort({author: -1})
     return articles;
   }
 
@@ -29,26 +27,16 @@ class ArticleService {
     if (!article._id) {
       throw new Error('ID has not been specified');
     }
-    const articleFromDB = await Article.findById(article._id);
-    if (article.userId === articleFromDB.userId) {
-      const updatedArticle = await Article.findByIdAndUpdate(article._id, article, {new: true});
-      return updatedArticle;
-    } else {
-      throw new Error('Permission denied');
-    }
+    const updatedArticle = await Article.findByIdAndUpdate(article._id, article, {new: true});
+    return updatedArticle;
   }
 
-  async delete(article) {
-    if (!article._id) {
+  async delete(id) {
+    if (!id) {
       throw new Error('ID has not been specified');
     }
-    const articleFromDB = await Article.findById(article._id);
-    if (article.userId === articleFromDB.userId) {
-      const updatedArticle = await Article.findByIdAndDelete(!article._id);
-      return updatedArticle;
-    } else {
-      throw new Error('Permission denied');
-    }
+    const article = await Article.findByIdAndDelete(id);
+    return article;
   }
 }
 

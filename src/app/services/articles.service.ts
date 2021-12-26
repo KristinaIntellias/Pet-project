@@ -31,19 +31,19 @@ export class ArticlesService implements OnDestroy {
     return this.http.put<Article>(this.url, {...article, userId: this.user._id});
   }
 
-  increaseFavorite(article: Article): Observable<Article> {
-    return this.http.put<Article>(this.url, {...article, favorite: article.favorite + 1});
+  deleteArticle({ _id }: Article): Observable<Article> {
+    return this.http.delete<Article>(`${this.url}/${_id}`);
   }
 
   getArticleUpdateListener() {
     return this.articlesUpdated$.asObservable();
   }
 
-  getUser(): void {
-    this.sub = this.userService.user$.subscribe((user: User) => this.user = user);
-  }
-
   ngOnDestroy (): void {
     this.sub?.unsubscribe();
+  }
+
+  private getUser(): void {
+    this.sub = this.userService.user$.subscribe((user: User) => this.user = user);
   }
 }

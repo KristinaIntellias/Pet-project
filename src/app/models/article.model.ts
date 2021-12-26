@@ -1,3 +1,5 @@
+import { Like } from "./like.model";
+
 export interface Article {
   _id?: string;
   author: string;
@@ -6,5 +8,7 @@ export interface Article {
   description: string;
   content?: string;
   userId?: string;
-  favorite: number;
+  likeId?: string;
+  isOwner: boolean;
+  like: Like;
 }

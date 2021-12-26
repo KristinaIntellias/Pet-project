@@ -25,7 +25,9 @@ export class ArticleDialogComponent implements OnInit {
   }
 
   submit() {
-    this.dialogRef.close({ _id: this.formData._id, date: Date.now(), favorite: 0, ...this.form.value} as Article);
+    this.dialogRef.close(
+      { _id: this.formData._id, date: Date.now(), userId: this.formData.userId, favorite: 0, ...this.form.value} as Article
+    );
   }
 
   cancel() {

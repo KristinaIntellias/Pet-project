@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from "@angular/common/http";
 
 import { SharedModule } from './shared/shared.module';
-import { FeatureModule } from './shared/feature.module';
+import { HomePageModule } from './pages/home-page/home-page.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -18,9 +18,9 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
   imports: [
     BrowserModule,
     SharedModule,
-    FeatureModule,
-    AppRoutingModule,
+    HomePageModule,
     HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

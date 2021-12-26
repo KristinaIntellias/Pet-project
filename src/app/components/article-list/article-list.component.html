@@ -1,6 +1,7 @@
 <app-article
   *ngFor="let article of articles"
   [article]="article"
-  (increaseFavorite)="articleEvent($event)"
-  (openArticleDialog)="openArticleDialog($event)"
+  (toggleFavorite)="toggleFavorite($event)"
+  (editArticle)="editArticle($event)"
+  (deleteArticle)="deleteArticle($event)"
 ></app-article>
