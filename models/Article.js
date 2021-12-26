@@ -7,10 +7,8 @@ const ArticleSchema = new Schema({
   title:  { type: String, required: true },
   description: { type: String, required: true },
   content: String,
-  // userId: { type: String, required: true },
-  userId: { type: String },
-  likeId: { type: String },
-  favorite: { type: Number, required: true },
+  userId: { type: String, required: true },
+  likeId: String,
 });
 
 const Article = mongoose.model('Article', ArticleSchema, 'articles');

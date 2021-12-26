@@ -40,7 +40,7 @@ class ArticleController {
 
   async delete(req, res) {
     try {
-      const article = await ArticleService.delete(req.body);
+      const article = await ArticleService.delete(req.params.id);
       return res.json(article);
     } catch (e) {
       res.status(500).json(e.message);

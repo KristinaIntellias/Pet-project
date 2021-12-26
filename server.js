@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const apiRouter = require('./routers/api.router.js');
 const usersRouter = require('./routers/users.router.js');
+const tagsRouter = require('./routers/tags.router.js');
 
 const app = express();
 const port = process.env.port || 3000;
@@ -13,6 +14,7 @@ const db_url = `mongodb+srv://kristina:kristina@cluster0.ksxdi.mongodb.net/myFir
 app.use(cors());
 app.use('/api', apiRouter);
 app.use('/users', usersRouter);
+app.use('/tags', tagsRouter);
 app.use(express.static(path.join(__dirname, '/dist/kristina-project')));
 
 app.get('*', (req, res) => {
