@@ -14,7 +14,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   public initialText = `Popular Tags No tags are here... yet.`;
   public tags!: Tag[];
-  public length!: number;
+  public tagsAmount!: number;
   private sub!: Subscription;
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
   private getTags(): void {
     this.sub = this.tagsService.getTags().subscribe((tags: Tag[]) => {
       this.tags = tags;
-      this.length = this.tags.length;
+      this.tagsAmount = this.tags.length;
     });
   }
 }

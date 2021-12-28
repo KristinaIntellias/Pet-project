@@ -6,10 +6,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+
+import { SpinnerComponent } from "../components/spinner/spinner.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    SpinnerComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -19,7 +22,6 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    NoopAnimationsModule
   ],
   exports: [
     CommonModule,
@@ -30,7 +32,7 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    NoopAnimationsModule
+    SpinnerComponent,
   ]
 })
 export class SharedModule { }

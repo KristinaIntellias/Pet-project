@@ -30,9 +30,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   private user!: User;
   private sub = new Subscription();
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getUser();
-    this.getLikes();
     this.getArticles();
     this.getArticleUpdateListener();
   }
@@ -82,19 +81,19 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    const sub = this.userService.user$.subscribe((user: User) => this.user = user);
-
-    this.sub.add(sub);
-  }
-
-  private getLikes(): void {
-    const sub = this.likesService.getLikes().subscribe((likes: Like[]) => this.likes = likes);
+    const sub = this.userService.getUser().subscribe((user: User) => this.user = user);
 
     this.sub.add(sub);
   }
 
   private getArticles(): void {
-    const sub = this.articlesService.getArticles()
+    const sub = this.likesService.getLikes()
+      .pipe(
+        switchMap((likes: Like[]) => {
+          this.likes = likes;
+          return this.articlesService.getArticles()
+        })
+      )
       .subscribe((articles: Article[]) =>
         this.articles = articles.map((article: Article) => {
           const like: Like = this.likes.find((elem: Like) => elem._id === article.likeId) || {};
