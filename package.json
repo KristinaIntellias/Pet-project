@@ -1,9 +1,11 @@
 {
   "name": "kristina-project",
   "version": "0.0.0",
+  "main": "server.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "serve": "nodemon server.js",
+    "start": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -20,6 +22,8 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "body-parser": "^1.19.1",
+    "express": "^4.17.1",
     "normalizecss": "^3.0.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
@@ -37,6 +41,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "nodemon": "^2.0.15",
     "typescript": "~4.4.3"
   }
 }
