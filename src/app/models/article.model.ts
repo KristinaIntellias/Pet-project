@@ -1,11 +1,14 @@
+import { Like } from "./like.model";
+
 export interface Article {
-  id: string;
+  _id?: string;
   author: string;
   date: number;
   title: string;
   description: string;
   content?: string;
-  favorite: number;
+  userId?: string;
+  likeId?: string;
+  isOwner: boolean;
+  like: Like;
 }
-
-export type ArticleWithoutId = Omit<Article, 'id'>

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
-import { ArticleWithoutId } from "../../models/article.model";
+import { Article } from "../../models/article.model";
 import { Controls, ErrorDescription, ErrorKey } from "../../models/article-dialog.model";
 import { articleDialogErrors } from "../../constants/errors";
 
@@ -15,14 +15,19 @@ export class ArticleDialogComponent implements OnInit {
   form!: FormGroup;
   errorMap: Map<ErrorKey, ErrorDescription> = articleDialogErrors;
 
-  constructor(public dialogRef: MatDialogRef<ArticleDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<ArticleDialogComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public formData: Article
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
   }
 
   submit() {
-    this.dialogRef.close({ date: Date.now(), favorite: 0, ...this.form.value} as ArticleWithoutId);
+    this.dialogRef.close(
+      { _id: this.formData._id, date: Date.now(), userId: this.formData.userId, favorite: 0, ...this.form.value} as Article
+    );
   }
 
   cancel() {
@@ -40,10 +45,10 @@ export class ArticleDialogComponent implements OnInit {
 
   private initForm(): void {
     this.form = new FormGroup({
-      author: new FormControl('', [Validators.minLength(2), Validators.required]),
-      title: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      content: new FormControl(''),
+      author: new FormControl(this.formData.author, [Validators.minLength(2), Validators.required]),
+      title: new FormControl(this.formData.title, [Validators.required]),
+      description: new FormControl(this.formData.description, [Validators.required]),
+      content: new FormControl(this.formData.content),
     });
   }
 }
