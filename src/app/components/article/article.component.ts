@@ -3,6 +3,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { Article } from "../../models/article.model";
+import { Like } from "../../models/like.model";
 import { icons } from "../../constants/icons";
 
 @Component({
@@ -12,11 +13,12 @@ import { icons } from "../../constants/icons";
 })
 export class ArticleComponent {
   heart = icons.heart;
+  pencil = icons.pencil;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
-  ){
+  ) {
     this.matIconRegistry.addSvgIcon(
       'heart',
       this.domSanitizer.bypassSecurityTrustResourceUrl(this.heart)
@@ -24,5 +26,11 @@ export class ArticleComponent {
   }
 
   @Input() article!: Article;
-  @Output() increaseFavorite = new EventEmitter<{id: string, favorite: number}>();
+  @Output() toggleFavorite = new EventEmitter<Like>();
+  @Output() editArticle = new EventEmitter<Article>();
+  @Output() deleteArticle = new EventEmitter<Article>();
+
+  changeFavorite(): void {
+    this.toggleFavorite.emit({...this.article.like, articleId: this.article._id});
+  }
 }

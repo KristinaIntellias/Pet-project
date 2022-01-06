@@ -1,34 +1,49 @@
-import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from "rxjs";
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Subject, Subscription } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
-import { articles } from '../mocks/articles.mock';
-import { Article, ArticleWithoutId } from "../models/article.model";
+import { Article } from "../models/article.model";
+import { UserService } from "./user.service";
+import { User } from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArticlesService {
-  private articles: Article[] = articles;
-  private articles$ = new ReplaySubject<Article[]>();
+export class ArticlesService implements OnDestroy {
+  constructor(private http: HttpClient, private userService: UserService) {}
+
+  public articlesUpdated$ = new Subject<Article[]>();
+  private sub = new Subscription();
+  private url = 'http://localhost:3000/api/posts';
+  private user!: User;
 
   getArticles(): Observable<Article[]> {
-    this.articles$.next(this.articles);
-    return this.articles$;
+    return this.http.get<Article[]>(this.url);
   }
 
-  addArticles(article: ArticleWithoutId): Observable<Article[]> {
-    this.articles$.subscribe(articles =>
-      this.articles = [...articles, {id: Math.random().toString(36).substr(2, 5), ...article}]
-    );
-    this.articles$.next(this.articles);
-    return this.articles$;
+  addArticle(article: Article): Observable<Article> {
+    this.getUser();
+    return this.http.post<Article>(this.url, {...article, userId: this.user._id});
   }
 
-  increaseFavorite(id: string, favorite: number): Observable<Article[]> {
-    this.articles$.subscribe(articles =>
-      this.articles = articles.map((article: Article) => article.id === id ? {...article, favorite} : article)
-    );
-    this.articles$.next(this.articles);
-    return this.articles$;
+  updateArticle(article: Article): Observable<Article> {
+    this.getUser();
+    return this.http.put<Article>(this.url, {...article, userId: this.user._id});
+  }
+
+  deleteArticle({ _id }: Article): Observable<Article> {
+    return this.http.delete<Article>(`${this.url}/${_id}`);
+  }
+
+  getArticleUpdateListener() {
+    return this.articlesUpdated$.asObservable();
+  }
+
+  ngOnDestroy (): void {
+    this.sub?.unsubscribe();
+  }
+
+  private getUser(): void {
+    this.sub = this.userService.user$.subscribe((user: User) => this.user = user);
   }
 }

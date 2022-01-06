@@ -7,15 +7,26 @@
         <span class="date">{{article.date | date:'MMMM d, yyyy'}}</span>
       </div>
     </div>
-    <div class="head-line__favorites {{!article.favorite ? 'white' : 'green'}}"
-         (click)="increaseFavorite.emit({id: article.id, favorite: article.favorite + 1})"
+    <div class="head-line__favorites {{!article.like.usersId?.length ? 'white' : 'green'}}"
+         (click)="changeFavorite()"
     >
       <mat-icon svgIcon="heart"></mat-icon>
-      <span class="amount">{{article.favorite}}</span>
+      <span class="amount">{{article.like.usersId?.length}}</span>
     </div>
   </div>
 
   <p class="title">{{article.title}}</p>
   <p class="description">{{article.description}}</p>
-  <a href="#" class="details">Read more...</a>
+  <div class="bottom-line">
+    <a href="#" class="details">Read more...</a>
+
+    <div class="buttons-article">
+      <button mat-button class="buttons-article__item" [disabled]="!article.isOwner" (click)="editArticle.emit(article)">
+        Edit article
+      </button>
+      <button mat-button class="buttons-article__item" [disabled]="!article.isOwner" (click)="deleteArticle.emit(article)">
+        Delete article
+      </button>
+    </div>
+  </div>
 </div>
