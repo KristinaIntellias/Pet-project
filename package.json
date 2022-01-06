@@ -4,8 +4,8 @@
   "main": "server.js",
   "scripts": {
     "ng": "ng",
-    "serve": "nodemon server.js",
-    "start": "node server.js",
+    "serve": "nodemon .",
+    "start": "node .",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

@@ -9,6 +9,10 @@ const port = process.env.port || 3000;
 app.use('/api', apiRouter);
 app.use(express.static(path.join(__dirname, '/dist/kristina-project')));
 
+app.use((req, res) => {
+  res.sendFile(__dirname + '/dist/kristina-project');
+});
+
 app.get('*', (req, res) => {
     res.status(404).send('Not found');
 });
