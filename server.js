@@ -2,26 +2,25 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
-const apiRouter = require('./routers/api.router.js');
-const usersRouter = require('./routers/users.router.js');
-const tagsRouter = require('./routers/tags.router.js');
+const apiRouter = require('./routes/api.router.js');
 
 const app = express();
 const port = process.env.port || 3000;
 const db_url = `mongodb+srv://kristina:kristina@cluster0.ksxdi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 app.use(cors());
+app.use(bodyParser.json());
 app.use('/api', apiRouter);
-app.use('/users', usersRouter);
-app.use('/tags', tagsRouter);
+
 app.use(express.static(path.join(__dirname, '/dist/kristina-project')));
 
 app.use((req, res) => {
   res.sendFile(__dirname + '/dist/kristina-project');
 });
 
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
     res.status(404).send('Not found');
 });
 

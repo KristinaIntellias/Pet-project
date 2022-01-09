@@ -9,8 +9,6 @@ import { Article } from "../../models/article.model";
 import { ArticleDialogComponent } from "../article-dialog/article-dialog.component";
 import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
-import { LikesService } from "../../services/likes.service";
-import { Like } from "../../models/like.model";
 
 @Component({
   selector: 'app-article-list',
@@ -21,30 +19,29 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   constructor(
     private articlesService: ArticlesService,
     private userService: UserService,
-    private likesService: LikesService,
     private dialog: MatDialog
   ) {}
 
   public articles!: Article[];
-  private likes!: Like[];
   private user!: User;
   private sub = new Subscription();
 
   ngOnInit() {
     this.getUser();
-    this.getLikes();
     this.getArticles();
     this.getArticleUpdateListener();
   }
 
-  toggleFavorite(like: Like): void {
-    const sub = this.likesService.toggleFavorite(like, String(this.user._id))
-      .subscribe((data: Like) => {
-        const { articleId } = like;
+  toggleFavorite(article: Article): void {
+    article.usersLikeId.includes(this.user._id) ?
+      article.usersLikeId = article.usersLikeId.filter((id) => id !== this.user._id) :
+      article.usersLikeId = [...article.usersLikeId, this.user._id];
+    const sub = this.articlesService.updateArticle(article)
+      .subscribe((newArticle: Article) =>
         this.articles = this.articles.map((article: Article) =>
-          article._id !== like.articleId ? article : {...article, like: {...data, articleId}}
+          article._id !== newArticle._id ? article : {...newArticle, isOwner: this.user._id === newArticle.author._id}
         )
-      });
+      );
 
     this.sub.add(sub);
   }
@@ -57,8 +54,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
         filter((updatedArticle: Article) => !!updatedArticle),
         switchMap((updatedArticle: Article) => this.articlesService.updateArticle(updatedArticle)),
         tap((updatedArticle: Article) => {
-          this.articles = this.articles.map((elem: Article) =>
-            elem._id === updatedArticle._id ? {...updatedArticle, isOwner: true, like: article.like} : elem);
+          this.articles = this.articles.map((article: Article) =>
+            article._id === updatedArticle._id ? {...updatedArticle, isOwner: true} : article);
         }),
         catchError(this.errorHandler)
       )
@@ -68,10 +65,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   deleteArticle(article: Article): void {
-    const sub = this.likesService.deleteLike(String(article.likeId))
-      .pipe(
-        switchMap(() => this.articlesService.deleteArticle(article))
-      )
+    const sub = this.articlesService.deleteArticle(article)
       .subscribe(() => this.articles = this.articles.filter((elem: Article) => elem._id !== article._id));
 
     this.sub.add(sub);
@@ -87,20 +81,13 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     this.sub.add(sub);
   }
 
-  private getLikes(): void {
-    const sub = this.likesService.getLikes().subscribe((likes: Like[]) => this.likes = likes);
-
-    this.sub.add(sub);
-  }
-
   private getArticles(): void {
     const sub = this.articlesService.getArticles()
       .subscribe((articles: Article[]) =>
         this.articles = articles.map((article: Article) => {
-          const like: Like = this.likes.find((elem: Like) => elem._id === article.likeId) || {};
-          return this.user._id === article.userId ?
-            {...article, isOwner: true, like: like} : {...article, isOwner: false, like: like};
-        }));
+          return {...article, isOwner: this.user._id === article.author._id};
+        })
+      );
 
     this.sub.add(sub);
   }

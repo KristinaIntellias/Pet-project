@@ -26,7 +26,7 @@ export class ArticleDialogComponent implements OnInit {
 
   submit() {
     this.dialogRef.close(
-      { _id: this.formData._id, date: Date.now(), userId: this.formData.userId, favorite: 0, ...this.form.value} as Article
+      { _id: this.formData._id, date: this.formData.date, author: this.formData.author, ...this.form.value} as Article
     );
   }
 
@@ -45,7 +45,6 @@ export class ArticleDialogComponent implements OnInit {
 
   private initForm(): void {
     this.form = new FormGroup({
-      author: new FormControl(this.formData.author, [Validators.minLength(2), Validators.required]),
       title: new FormControl(this.formData.title, [Validators.required]),
       description: new FormControl(this.formData.description, [Validators.required]),
       content: new FormControl(this.formData.content),

@@ -1,13 +1,9 @@
 <h2 class="article-dialog-title">Adding a new article</h2>
 
 <form class="article-dialog-form" [formGroup]="form">
-  <mat-form-field hintLabel="Min 2 characters" appearance="fill">
-    <mat-label>Enter author</mat-label>
-    <input matInput #author formControlName="author">
-    <mat-hint align="end">{{author.value?.length || 0}}</mat-hint>
-    <mat-error *ngIf="form.get('author')?.invalid && form.get('author')?.touched">
-      <small>{{getErrorMessage('author')}}</small>
-    </mat-error>
+  <mat-form-field appearance="fill">
+    <mat-label>Author</mat-label>
+    <input matInput [value]="formData.author.firstName + ' ' + formData.author.LastName" readonly>
   </mat-form-field>
 
   <mat-form-field hintLabel="Max 60 characters" appearance="fill">
