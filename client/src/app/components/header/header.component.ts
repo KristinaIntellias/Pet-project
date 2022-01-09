@@ -36,14 +36,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         filter((article: Article) => !!article),
         switchMap((article: Article) => this.articlesService.addArticle(article)),
         switchMap(() => this.articlesService.getArticles()),
+        switchMap((articles: Article[]) => this.articlesService.normalizeArticles(articles, this.user._id)),
         catchError(this.errorHandler)
       )
-      .subscribe((articles: Article[]) => {
-        articles = articles.map((article: Article) => {
-            return {...article, isOwner: this.user._id === article.author._id}
-        });
-        this.articlesService.articlesUpdated$.next([...articles]);
-      });
+      .subscribe((articles: Article[]) => this.articlesService.articlesUpdated$.next([...articles]));
 
     this.sub.add(sub);
   };

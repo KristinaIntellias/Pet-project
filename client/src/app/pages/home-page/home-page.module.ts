@@ -21,11 +21,7 @@ import { SideBarComponent } from '../../components/side-bar/side-bar.component';
     RouterModule.forChild([{ path: '', component: HomePageComponent }]),
   ],
   exports: [
-    RouterModule,
-    ArticleListComponent,
-    ArticleComponent,
-    ArticleDialogComponent,
-    SideBarComponent,
+    RouterModule
   ]
 })
 export class HomePageModule {}

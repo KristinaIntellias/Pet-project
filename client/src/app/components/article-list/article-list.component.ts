@@ -36,6 +36,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     article.usersLikeId.includes(this.user._id) ?
       article.usersLikeId = article.usersLikeId.filter((id) => id !== this.user._id) :
       article.usersLikeId = [...article.usersLikeId, this.user._id];
+
     const sub = this.articlesService.updateArticle(article)
       .subscribe((newArticle: Article) =>
         this.articles = this.articles.map((article: Article) =>
@@ -66,7 +67,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
   deleteArticle(article: Article): void {
     const sub = this.articlesService.deleteArticle(article)
-      .subscribe(() => this.articles = this.articles.filter((elem: Article) => elem._id !== article._id));
+      .subscribe(() =>
+        this.articles = this.articles.filter((elem: Article) => elem._id !== article._id)
+      );
 
     this.sub.add(sub);
   }
@@ -83,11 +86,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
   private getArticles(): void {
     const sub = this.articlesService.getArticles()
-      .subscribe((articles: Article[]) =>
-        this.articles = articles.map((article: Article) => {
-          return {...article, isOwner: this.user._id === article.author._id};
-        })
-      );
+      .pipe(
+        switchMap((articles: Article[]) => this.articlesService.normalizeArticles(articles, this.user._id)),
+        tap((articles: Article[]) => this.articles = articles)
+      )
+      .subscribe();
 
     this.sub.add(sub);
   }

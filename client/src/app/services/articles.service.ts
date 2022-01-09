@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
 import { Article } from "../models/article.model";
+import { User } from "../models/user.model";
+import { UserService } from "./user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,12 @@ export class ArticlesService {
 
   getArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(this.url);
+  }
+
+  normalizeArticles(articles: Article[], id: string): Observable<Article[]> {
+    return of(articles.map((article: Article) => {
+        return {...article, isOwner: id === article.author._id};
+      }))
   }
 
   addArticle(article: Article): Observable<Article> {

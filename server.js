@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const apiRouter = require('./routes/api.router.js');
+const apiRouter = require('./server/routes/api.router.js');
 
 const app = express();
 const port = process.env.port || 3000;
@@ -16,7 +16,7 @@ app.use('/api', apiRouter);
 
 app.use(express.static(path.join(__dirname, '/dist/kristina-project')));
 
-app.use((req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/dist/kristina-project');
 });
 
