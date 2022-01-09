@@ -1,11 +1,11 @@
-const userService = require('./user.service.js');
+const userService = require('../services/user.service.js');
 const UserService = new userService.UserService();
 
 class UserController {
   async create (req, res) {
     try {
       const user = await UserService.create(req.body);
-      res.json(user);
+      res.status(201).json(user);
     } catch (e) {
       res.status(500).json(e.message);
     }
@@ -14,7 +14,7 @@ class UserController {
   async getAll(req, res) {
     try {
       const users = await UserService.getAll();
-      return res.json(users);
+      return res.status(200).json(users);
     } catch (e) {
       res.status(500).json(e.message);
     }
@@ -23,7 +23,7 @@ class UserController {
   async getOne(req, res) {
     try {
       const user = await UserService.getOne(req.params.id);
-      return res.json(user);
+      return res.status(200).json(user);
     } catch (e) {
       res.status(500).json(e.message);
     }
@@ -32,7 +32,7 @@ class UserController {
   async update(req, res) {
     try {
       const updatedUser = await UserService.update(req.body);
-      return res.json(updatedUser);
+      return res.status(200).json(updatedUser);
     } catch (e) {
       res.status(500).json(e.message);
     }
@@ -41,7 +41,7 @@ class UserController {
   async delete(req, res) {
     try {
       const user = await UserService.delete(req.params.id);
-      return res.json(user);
+      return res.status(200).json(user);
     } catch (e) {
       res.status(500).json(e.message);
     }

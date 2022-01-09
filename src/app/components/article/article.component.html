@@ -3,15 +3,15 @@
     <div class="head-line__content content">
       <mat-icon class="content__icon">mood</mat-icon>
       <div class="content__text">
-        <span class="author">{{article.author}}</span>
+        <span class="author">{{article.author.firstName}} {{article.author.LastName}}</span>
         <span class="date">{{article.date | date:'MMMM d, yyyy'}}</span>
       </div>
     </div>
-    <div class="head-line__favorites {{!article.like.usersId?.length ? 'white' : 'green'}}"
-         (click)="changeFavorite()"
+    <div class="head-line__favorites {{!article.usersLikeId.length ? 'white' : 'green'}}"
+         (click)="toggleFavorite.emit(article)"
     >
       <mat-icon svgIcon="heart"></mat-icon>
-      <span class="amount">{{article.like.usersId?.length}}</span>
+      <span class="amount">{{article.usersLikeId.length}}</span>
     </div>
   </div>
 

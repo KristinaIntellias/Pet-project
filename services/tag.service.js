@@ -2,37 +2,40 @@ const Tag = require('../models/Tag.js');
 
 class TagService {
   async create (tag) {
-    const createdTag = await Tag.create(tag);
-    return createdTag;
+    return await Tag.create(tag);
   }
 
   async getAll() {
-    const tags = await Tag.find();
-    return tags;
+    return Tag
+      .find()
+      .select('_id content userId');
   }
 
   async getOne(id) {
     if (!id) {
       throw new Error('ID has not been specified');
     }
-    const tag = await Tag.findById(id);
-    return tag;
+    return Tag
+      .findById(id)
+      .select('_id content userId');
   }
 
   async update(tag) {
     if (!tag._id) {
       throw new Error('ID has not been specified');
     }
-    const updatedTag = await Tag.findByIdAndUpdate(tag._id, tag, {new: true});
-    return updatedTag;
+    return Tag
+      .findByIdAndUpdate(tag._id, tag, {new: true})
+      .select('_id content userId');
   }
 
   async delete(id) {
     if (!id) {
       throw new Error('ID has not been specified');
     }
-    const tag = await Tag.findByIdAndDelete(id);
-    return tag;
+    return Tag
+      .findByIdAndDelete(id)
+      .select('_id content userId');
   }
 }
 
