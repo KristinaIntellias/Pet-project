@@ -1,7 +1,7 @@
 <nav class="nav-header">
   <a [routerLink]="['/']" class="nav-header__logo">My Blog</a>
   <ul class="nav-header__menu">
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-header__menu-item"><a [routerLink]="['/']">Home</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-header__menu-item"><a [routerLink]="['/home']">Home</a></li>
     <li routerLinkActive="active" class="nav-header__menu-item">
       <a class="item-with-icon" (click)="openArticleDialog()">
         <img
@@ -12,7 +12,7 @@
         />
         New Article
       </a></li>
-    <li routerLinkActive="active" class="nav-header__menu-item"><a href="#">User</a></li>
+    <li routerLinkActive="active" class="nav-header__menu-item"><a [routerLink]="['/sign-in']">User</a></li>
   </ul>
 </nav>
 

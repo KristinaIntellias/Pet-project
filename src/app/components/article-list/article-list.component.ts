@@ -26,7 +26,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   private user!: User;
   private sub = new Subscription();
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getUser();
     this.getArticles();
     this.getArticleUpdateListener();
@@ -76,7 +76,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    const sub = this.userService.user$.subscribe((user: User) => this.user = user);
+    const sub = this.userService.getUser().subscribe((user: User) => this.user = user);
 
     this.sub.add(sub);
   }

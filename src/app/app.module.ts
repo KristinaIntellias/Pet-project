@@ -1,28 +1,33 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SharedModule } from './shared/shared.module';
-import { HomePageModule } from './pages/home-page/home-page.module';
 import { AppComponent } from './app.component';
+import { SharedModule } from './shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
-import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { SpinnerInterceptor } from './interceptors/spinner-interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomePageComponent,
+    ErrorPageComponent,
   ],
   imports: [
-    BrowserModule,
+    NoopAnimationsModule,
     SharedModule,
-    HomePageModule,
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
