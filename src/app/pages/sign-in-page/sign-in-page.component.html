@@ -1,0 +1,4 @@
+<ng-container *ngIf="!!(user$ | async)">
+  <p>Your name: <b><em>{{(user$ | async)?.name}}</em></b></p>
+  <p>Your e-mail: <b><em>{{(user$ | async)?.email}}</em></b></p>
+</ng-container>
