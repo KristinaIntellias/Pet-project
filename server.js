@@ -13,6 +13,7 @@ const db_url = `mongodb+srv://kristina:kristina@cluster0.ksxdi.mongodb.net/myFir
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/api', apiRouter);
+
 app.use(express.static(path.join(__dirname, '/dist/kristina-project')));
 
 app.use((req, res) => {

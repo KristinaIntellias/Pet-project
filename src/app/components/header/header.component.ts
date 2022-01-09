@@ -39,7 +39,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         catchError(this.errorHandler)
       )
       .subscribe((articles: Article[]) => {
-        console.log('all arts', articles)
         articles = articles.map((article: Article) => {
             return {...article, isOwner: this.user._id === article.author._id}
         });

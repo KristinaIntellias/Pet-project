@@ -51,8 +51,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
     const sub = articleDialogComponent.afterClosed()
       .pipe(
-        tap((data) => {
-          console.log(data)}),
         filter((updatedArticle: Article) => !!updatedArticle),
         switchMap((updatedArticle: Article) => this.articlesService.updateArticle(updatedArticle)),
         tap((updatedArticle: Article) => {
