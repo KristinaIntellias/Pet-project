@@ -8,5 +8,6 @@ export interface Article {
   description: string;
   content?: string;
   usersLikeId: Array<string>;
+  tags?: Array<string>;
   isOwner: boolean;
 }

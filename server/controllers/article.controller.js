@@ -13,7 +13,7 @@ class ArticleController {
 
   async getAll(req, res) {
     try {
-      const articles = await ArticleService.getAll();
+      const articles = await ArticleService.getAll(req.query);
       return res.status(200).json(articles);
     } catch (e) {
       res.status(500).json(e.message);

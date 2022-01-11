@@ -35,6 +35,10 @@ export class ArticlesService {
     return this.http.delete<Article>(`${this.url}/${_id}`);
   }
 
+  filterByTag(text: string): Observable<Article[]> {
+    return this.http.get<Article[]>(`${this.url}?tags=${text}`);
+  }
+
   getArticleUpdateListener() {
     return this.articlesUpdated$.asObservable();
   }

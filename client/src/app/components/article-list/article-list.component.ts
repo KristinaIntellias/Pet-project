@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, Subscription, throwError } from "rxjs";
-import { filter, switchMap, catchError, tap } from "rxjs/operators";
+import { filter, switchMap, catchError } from "rxjs/operators";
 import { HttpErrorResponse } from "@angular/common/http";
 
 import { ArticlesService } from "../../services/articles.service";
@@ -54,13 +54,12 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       .pipe(
         filter((updatedArticle: Article) => !!updatedArticle),
         switchMap((updatedArticle: Article) => this.articlesService.updateArticle(updatedArticle)),
-        tap((updatedArticle: Article) => {
-          this.articles = this.articles.map((article: Article) =>
-            article._id === updatedArticle._id ? {...updatedArticle, isOwner: true} : article);
-        }),
         catchError(this.errorHandler)
       )
-      .subscribe();
+      .subscribe((updatedArticle: Article) => {
+        this.articles = this.articles.map((article: Article) =>
+          article._id === updatedArticle._id ? {...updatedArticle, isOwner: true} : article);
+      });
 
     this.sub.add(sub);
   }
@@ -87,10 +86,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   private getArticles(): void {
     const sub = this.articlesService.getArticles()
       .pipe(
-        switchMap((articles: Article[]) => this.articlesService.normalizeArticles(articles, this.user._id)),
-        tap((articles: Article[]) => this.articles = articles)
+        switchMap((articles: Article[]) => this.articlesService.normalizeArticles(articles, this.user._id))
       )
-      .subscribe();
+      .subscribe((articles: Article[]) => this.articles = articles);
 
     this.sub.add(sub);
   }
