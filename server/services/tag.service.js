@@ -6,12 +6,6 @@ class TagService {
   }
 
   async getAll() {
-    // await Tag.collection.createIndex({text: 1}, {unique: true});
-    // await Tag.collection.getIndexes({full: true}).then(indexes => {
-    //   console.log("indexes:", indexes);
-    //   // ...
-    // }).catch(console.error);
-
     return Tag
       .find()
       .select('_id text');
