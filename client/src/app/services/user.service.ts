@@ -11,7 +11,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   private url = 'http://localhost:3000/api/users';
-  private userId = '61da9d850a08dbf7f4f7ae54';
+  private userId = '61dd7c0ed2bccd700a6e541d';
 
   getUser(): Observable<User> {
     return this.http.get<User>(`${this.url}/${this.userId}`);
