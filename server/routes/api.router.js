@@ -18,13 +18,14 @@ router.delete('/posts/:id', checkAuth, ArticleController.delete);
 
 router.post('/signup', [
   check('firstName', 'First name should not be empty').notEmpty(),
-  check('LastName', 'First name should not be empty').notEmpty(),
+  check('lastName', 'Last name should not be empty').notEmpty(),
   check('email', 'Should be email format').isEmail(),
   check('password', 'Password should be at least 6 symbols').isLength({min: 6}),
 ], UserController.signup);
 router.post('/login', UserController.login);
 router.get('/users', UserController.getAll);
 router.get('/users/:id', UserController.getOne);
+router.put('/users', UserController.update);
 router.delete('/users/:id', UserController.delete);
 
 router.post('/tags', TagController.create);

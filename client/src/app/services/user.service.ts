@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { Observable, of, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import { User } from "../models/user.model";
 
@@ -11,9 +12,17 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   private url = 'http://localhost:3000/api/users';
-  private userId = '61dd7c0ed2bccd700a6e541d';
 
-  getUser(): Observable<User> {
-    return this.http.get<User>(`${this.url}/${this.userId}`);
+  getUser(): Observable<User | null> {
+    const userId = this.getUserId();
+    return !!userId ? this.http.get<User>(`${this.url}/${userId}`).pipe(catchError(this.errorHandler)) : of(null);
+  }
+
+  getUserId(): string | null {
+    return localStorage.getItem('userId');
+  }
+
+  private errorHandler({ error }: HttpErrorResponse): Observable<never> {
+    return throwError(error);
   }
 }

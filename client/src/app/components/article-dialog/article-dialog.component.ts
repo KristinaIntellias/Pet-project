@@ -3,8 +3,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { Article } from "../../models/article.model";
-import { Controls, ErrorDescription, ErrorKey } from "../../models/article-dialog.model";
-import { articleDialogErrors } from "../../constants/errors";
+import { ErrorDescription, ErrorKey, dialogErrors } from "../../constants/errors";
+
+type Controls = 'author' | 'title' | 'description' | 'content';
 
 @Component({
   selector: 'app-article-dialog',
@@ -13,7 +14,7 @@ import { articleDialogErrors } from "../../constants/errors";
 })
 export class ArticleDialogComponent implements OnInit {
   form!: FormGroup;
-  errorMap: Map<ErrorKey, ErrorDescription> = articleDialogErrors;
+  errorMap: Map<ErrorKey, ErrorDescription> = dialogErrors;
 
   constructor(
     public dialogRef: MatDialogRef<ArticleDialogComponent>,

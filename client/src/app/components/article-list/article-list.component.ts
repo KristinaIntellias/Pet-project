@@ -33,11 +33,12 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   toggleFavorite(article: Article): void {
+    let updatedUsersLikeId;
     article.usersLikeId.includes(this.user._id) ?
-      article.usersLikeId = article.usersLikeId.filter((id) => id !== this.user._id) :
-      article.usersLikeId = [...article.usersLikeId, this.user._id];
+      updatedUsersLikeId = article.usersLikeId.filter((id) => id !== this.user._id) :
+      updatedUsersLikeId = [...article.usersLikeId, this.user._id];
 
-    const sub = this.articlesService.updateArticle(article)
+    const sub = this.articlesService.updateArticle({...article, usersLikeId: updatedUsersLikeId})
       .subscribe((newArticle: Article) =>
         this.articles = this.articles.map((article: Article) =>
           article._id !== newArticle._id ? article : {...newArticle, isOwner: this.user._id === newArticle.author._id}
@@ -78,7 +79,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    const sub = this.userService.getUser().subscribe((user: User) => this.user = user);
+    const sub = this.userService.getUser().subscribe((user: User | null) => {
+      if (!!user) {
+        this.user = user
+      }
+    });
 
     this.sub.add(sub);
   }
