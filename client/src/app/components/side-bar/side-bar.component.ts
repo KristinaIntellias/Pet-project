@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from "rxjs";
-import {switchMap, tap} from "rxjs/operators";
+import { switchMap } from "rxjs/operators";
 
 import { Tag } from "../../models/tag.model";
 import { TagsService } from "../../services/tags.service";
