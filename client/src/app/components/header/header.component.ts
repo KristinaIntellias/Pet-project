@@ -10,8 +10,8 @@ import { ArticlesService } from "../../services/articles.service";
 import { Article } from "../../models/article.model";
 import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
-import {RoutingEnum} from "../../models/routing.model";
-import {AuthService} from "../../services/auth.service";
+import { RoutingEnum } from "../../models/routing.model";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-header',

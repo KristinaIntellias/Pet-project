@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from "./pages/error-page/error-page.component";
 import { AuthGuard } from "./guards/auth.guard";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',

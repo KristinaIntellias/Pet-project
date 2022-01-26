@@ -11,7 +11,7 @@ export class ArticlesService {
   constructor(private http: HttpClient) {}
 
   public articlesUpdated$ = new Subject<Article[]>();
-  private url = 'http://localhost:3000/api/posts';
+  public url = 'http://localhost:3000/api/posts';
 
   getArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(this.url);
@@ -26,7 +26,7 @@ export class ArticlesService {
     )
   }
 
-  addArticle(article: Article): Observable<any> {
+  addArticle(article: Article): Observable<Article> {
     return this.http.post<Article>(this.url, {...article, usersLike: []});
   }
 

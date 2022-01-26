@@ -1,8 +1,9 @@
 import { User } from "../models/user.model";
 
 export const user: User = {
-  _id: '61da9d850a08dbf7f4f7ae54',
-  firstName: 'Vasya',
-  LastName: 'Pupkin',
-  email: 'example@gmail.com',
+  _id: "61e53618d9ba246f4c2c9e82",
+  firstName: "Nataliia",
+  lastName: "Petrova",
+  email: "exam@gmail.com",
+  password: '111111'
 };

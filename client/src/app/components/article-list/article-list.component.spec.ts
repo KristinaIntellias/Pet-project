@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from "@angular/material/dialog";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { ArticleListComponent } from './article-list.component';
 
@@ -8,7 +10,8 @@ describe('ArticleListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArticleListComponent ]
+      declarations: [ ArticleListComponent ],
+      imports: [HttpClientTestingModule, MatDialogModule]
     })
     .compileComponents();
   });
@@ -19,7 +22,7 @@ describe('ArticleListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 });

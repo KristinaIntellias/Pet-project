@@ -8,13 +8,9 @@ import { SignInSuccess, SignUpSuccess } from "../models/auth.model";
   providedIn: 'root',
 })
 export class AuthService {
-  private url = 'http://localhost:3000/api/';
+  public url = 'http://localhost:3000/api/';
 
-  constructor(public http: HttpClient) {}
-
-  getUserId(): string {
-    return localStorage.getItem('userId') || '';
-  }
+  constructor(private http: HttpClient) {}
 
   getToken(): string {
     return localStorage.getItem('token') || '';
