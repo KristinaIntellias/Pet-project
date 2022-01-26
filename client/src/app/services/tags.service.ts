@@ -10,7 +10,7 @@ import { Tag } from "../models/tag.model";
 export class TagsService {
   constructor(private http: HttpClient) {}
 
-  private url = 'http://localhost:3000/api/tags';
+  public url = 'http://localhost:3000/api/tags';
 
   getTags(): Observable<Tag[]> {
     return this.http.get<Tag[]>(this.url);

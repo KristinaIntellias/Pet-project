@@ -1,4 +1,44 @@
-<ng-container *ngIf="!!user">
-  <p>Your name: <b><em>{{user.firstName}} {{user.LastName}}</em></b></p>
-  <p>Your e-mail: <b><em>{{user.email}}</em></b></p>
-</ng-container>
+<div class="sign-in">
+  <h2 class="sign-in__title">Login</h2>
+
+  <form class="sign-in__form" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="fill" class="app-form__form-control">
+      <mat-label>E-mail:</mat-label>
+      <input matInput
+             type="email"
+             placeholder="Email"
+             formControlName="email"
+             class="sign-in__form-control"
+             required>
+      <mat-error *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+        <small>{{getErrorMessage('email')}}</small>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="app-form__form-control">
+      <mat-label>Password:</mat-label>
+      <input matInput
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+        class="sign-in__form-control"
+        required
+      />
+      <mat-error *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+        <small>{{getErrorMessage('password')}}</small>
+      </mat-error>
+    </mat-form-field>
+
+    <div *ngIf="serviceError">
+      <small class="app-form__error">{{ serviceError }}</small>
+    </div>
+
+    <button
+      class="sign-in__form-btn"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      SUBMIT
+    </button>
+  </form>
+</div>

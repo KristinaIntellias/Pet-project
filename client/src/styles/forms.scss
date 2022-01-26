@@ -1,0 +1,11 @@
+@import "variables";
+
+.app-form__error {
+  color: $main-red;
+  font-size: 12px;
+}
+
+.app-form__form-control {
+  width: 100%;
+  outline: transparent;
+}

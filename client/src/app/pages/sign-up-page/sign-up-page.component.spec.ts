@@ -1,37 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from "rxjs";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { of } from "rxjs";
 import { By } from "@angular/platform-browser";
 
-import { SignInPageComponent } from './sign-in-page.component';
+import { SignUpPageComponent } from './sign-up-page.component';
 import { AuthService } from "../../services/auth.service";
-import { RoutingEnum } from "../../models/routing.model";
 
-describe('SignInPageComponent', () => {
+describe('SignUpPageComponent', () => {
   let mockAuthService: jasmine.SpyObj<AuthService>;
-  let component: SignInPageComponent;
-  let fixture: ComponentFixture<SignInPageComponent>;
-  let router: Router;
-  const routing = RoutingEnum;
+  let component: SignUpPageComponent;
+  let fixture: ComponentFixture<SignUpPageComponent>;
 
   beforeEach(async () => {
-    mockAuthService = jasmine.createSpyObj<AuthService>('AuthService', ['signIn']);
+    mockAuthService = jasmine.createSpyObj<AuthService>('AuthService', ['signUp']);
     await TestBed.configureTestingModule({
-      declarations: [SignInPageComponent],
+      declarations: [SignUpPageComponent],
       imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
       providers: [{provide: AuthService, useValue: mockAuthService }],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
-    fixture = TestBed.createComponent(SignInPageComponent);
+    fixture = TestBed.createComponent(SignUpPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -40,9 +35,12 @@ describe('SignInPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create form with 2 controls', () => {
+  it('should create form with 5 controls', () => {
+    expect(component.form.contains('firstName')).toBeTruthy();
+    expect(component.form.contains('lastName')).toBeTruthy();
     expect(component.form.contains('email')).toBeTruthy();
     expect(component.form.contains('password')).toBeTruthy();
+    expect(component.form.contains('confirmPassword')).toBeTruthy();
   });
 
   it('should render error message', () => {
@@ -59,17 +57,23 @@ describe('SignInPageComponent', () => {
     expect(component.ngOnInit).toBeDefined();
     expect(component.getErrorMessage).toBeDefined();
     expect(component.form.invalid).toBeTruthy();
+    expect(component.routing).toBeDefined();
     expect(component.serviceError).toBeUndefined();
+    expect(component.successRegistrationMessage).toBeUndefined();
   });
 
-  it('should navigate on submit after checking that form is valid', async () => {
+  it('should render success message on submit after checking that form is valid', async () => {
+    const msg = { message: 'You have been successfully registered' };
+    component.form.get('firstName')?.setValue('Anna');
+    component.form.get('lastName')?.setValue('Sydorova');
     component.form.get('email')?.setValue('test@test.com');
     component.form.get('password')?.setValue('123456');
+    component.form.get('confirmPassword')?.setValue('123456');
 
-    mockAuthService.signIn.and.returnValue(of({token: '', id: ''}));
+    mockAuthService.signUp.and.returnValue(of(msg));
     component.submit();
     await fixture.whenStable();
     expect(component.form.valid).toBeTruthy();
-    expect(router.navigate).toHaveBeenCalledWith([routing.home]);
+    expect(component.successRegistrationMessage).toBe(msg.message);
   });
 });

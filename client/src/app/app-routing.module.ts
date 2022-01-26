@@ -2,14 +2,23 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ErrorPageComponent } from "./pages/error-page/error-page.component";
+import { AuthGuard } from "./guards/auth.guard";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/home-page/home-page.module').then(
         (m) => m.HomePageModule
+      ),
+  },
+  {
+    path: 'sign-up',
+    loadChildren: () =>
+      import('./pages/sign-up-page/sign-up-page.module').then(
+        (m) => m.SignUpPageModule
       ),
   },
   {

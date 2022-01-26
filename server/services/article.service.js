@@ -2,15 +2,25 @@ const Article = require('../models/Article.js');
 
 class ArticleService {
   async create (article) {
-    return await Article.create(article);
+    const newArticle = await Article.create(article);
+    await Article.collection.createIndex({tags: 1});
+    return newArticle;
   }
 
-  async getAll() {
-    return Article
-      .find(        { $match: { date: { $gte: 1640532829147 } } })
-      .select('_id author date title description content usersLikeId')
-      .populate('author', '_id firstName LastName email')
-      .sort({date: -1});
+  async getAll(query) {
+    if (Object.keys(query).length !== 0) {
+      return Article
+        .find(        { tags: { $in: [query.tags] } })
+        .select('_id author date title description content usersLikeId tags')
+        .populate('author', '_id firstName lastName email')
+        .sort({date: -1});
+    } else {
+      return Article
+        .find(        {})
+        .select('_id author date title description content usersLikeId tags')
+        .populate('author', '_id firstName lastName email')
+        .sort({date: -1});
+    }
   }
 
   async getOne(id) {
@@ -19,8 +29,8 @@ class ArticleService {
     }
     return Article
       .findById(id)
-      .select('_id author date title description content usersLikeId')
-      .populate('author', '_id firstName LastName email');
+      .select('_id author date title description content usersLikeId tags')
+      .populate('author', '_id firstName lastName email');
   }
 
   async update(article) {
@@ -29,8 +39,8 @@ class ArticleService {
     }
     return Article
       .findByIdAndUpdate(article._id, article, {new: true})
-      .select('_id author date title description content usersLikeId')
-      .populate('author', '_id firstName LastName email');
+      .select('_id author date title description content usersLikeId tags')
+      .populate('author', '_id firstName lastName email');
   }
 
   async delete(id) {
@@ -39,8 +49,8 @@ class ArticleService {
     }
     return Article
       .findByIdAndDelete(id)
-      .select('_id author date title description content usersLikeId')
-      .populate('author', '_id firstName LastName email');
+      .select('_id author date title description content usersLikeId tags')
+      .populate('author', '_id firstName lastName email');
   }
 }
 

@@ -1,14 +1,50 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/User.js');
+const Article = require("../models/Article.js");
+
+const saltRounds = 10;
 
 class UserService {
-  async create (user) {
-    return await User.create(user);
+  async signup (user) {
+    const { email, password } = user;
+    const emailExist = await User.findOne({email});
+
+    if (!!emailExist) {
+      throw new Error('Such email is already exist');
+    }
+
+    bcrypt.hash(password, saltRounds, async (err, hash) => {
+      if (err) {
+        return err
+      } else {
+        return await User.create({...user, password: hash});
+      }
+    })
+  }
+
+  async login (user) {
+    const { email, password } = user;
+    const existUser = await User.findOne({email});
+
+    if (!existUser) {
+      throw new Error(`Authorization failed`);
+    }
+
+    const validPassword = bcrypt.compareSync(password, existUser.password);
+    if (!validPassword) {
+      throw new Error('Invalid e-mail or password');
+    }
+
+    const token = jwt.sign({id: existUser._id, email: existUser.email}, process.env.SECRET, {expiresIn: '1h'});
+    return {token: token, id: existUser._id};
   }
 
   async getAll() {
     return User
       .find({})
-      .select('_id firstName LastName email');
+      .select('_id firstName lastName email');
   }
 
   async getOne(id) {
@@ -17,16 +53,16 @@ class UserService {
     }
     return User
       .findById(id)
-      .select('_id firstName LastName email');
+      .select('_id firstName lastName email');
   }
 
   async update(user) {
     if (!user._id) {
       throw new Error('ID has not been specified');
     }
-    return User
+    return Article
       .findByIdAndUpdate(user._id, user, {new: true})
-      .select('_id firstName LastName email');
+      .select('_id firstName lastName email');
   }
 
   async delete(id) {
@@ -35,7 +71,7 @@ class UserService {
     }
     return User
       .findByIdAndDelete(id)
-      .select('_id firstName LastName email');
+      .select('_id firstName lastName email');
   }
 }
 

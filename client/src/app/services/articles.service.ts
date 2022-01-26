@@ -11,16 +11,19 @@ export class ArticlesService {
   constructor(private http: HttpClient) {}
 
   public articlesUpdated$ = new Subject<Article[]>();
-  private url = 'http://localhost:3000/api/posts';
+  public url = 'http://localhost:3000/api/posts';
 
   getArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(this.url);
   }
 
   normalizeArticles(articles: Article[], id: string): Observable<Article[]> {
-    return of(articles.map((article: Article) => {
-        return {...article, isOwner: id === article.author._id};
-      }))
+    return of(articles
+      .filter((article: Article) => !!article.author)
+      .map((article: Article) => {
+        return {...article, isOwner: id === article.author._id}
+        })
+    )
   }
 
   addArticle(article: Article): Observable<Article> {
@@ -33,6 +36,10 @@ export class ArticlesService {
 
   deleteArticle({ _id }: Article): Observable<Article> {
     return this.http.delete<Article>(`${this.url}/${_id}`);
+  }
+
+  filterByTag(text: string): Observable<Article[]> {
+    return this.http.get<Article[]>(`${this.url}?tags=${text}`);
   }
 
   getArticleUpdateListener() {
