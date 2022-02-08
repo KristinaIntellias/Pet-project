@@ -22,7 +22,7 @@ app.use('/api', apiRouter);
 app.use(express.static(path.join(__dirname, '/dist/kristina-project')));
 
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/dist/kristina-project');
+  res.sendFile(__dirname + '/dist/kristina-project/index.html');
 });
 
 app.get('*', (req, res, next) => {
