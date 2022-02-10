@@ -3,9 +3,9 @@ import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
-import { AuthService } from '../../services/auth.service';
-import { RoutingEnum } from '../../models/routing.model';
-import { SignInSuccess, Controls } from '../../models/auth.model';
+import { AuthService } from "../../services/auth.service";
+import { RoutingEnum } from "../../models/routing.model";
+import { SignInSuccess, Controls } from "../../models/auth.model";
 import { ErrorDescription, ErrorKey, dialogErrors } from "../../constants/errors";
 
 @Component({
