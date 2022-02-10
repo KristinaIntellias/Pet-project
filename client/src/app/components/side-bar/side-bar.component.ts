@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from "rxjs";
-import {switchMap, tap} from "rxjs/operators";
+import { switchMap } from "rxjs/operators";
 
 import { Tag } from "../../models/tag.model";
 import { TagsService } from "../../services/tags.service";
@@ -62,7 +62,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    const sub = this.userService.getUser().subscribe((user: User) => this.user = user);
+    const sub = this.userService.getUser().subscribe((user: User | null) => {
+      if (!!user) {
+        this.user = user
+      }
+    });
 
     this.sub.add(sub);
   }

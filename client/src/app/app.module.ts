@@ -8,7 +8,8 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
-import { SpinnerInterceptor } from './interceptors/spinner-interceptor';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -24,11 +25,8 @@ import { SpinnerInterceptor } from './interceptors/spinner-interceptor';
     AppRoutingModule,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: SpinnerInterceptor,
-      multi: true,
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

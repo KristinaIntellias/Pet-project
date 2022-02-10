@@ -1,0 +1,92 @@
+<div class="sign-up">
+  <h2 class="sign-up__title">Sign up</h2>
+
+  <form *ngIf="!successRegistrationMessage"
+    class="sign-up__form" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="fill" class="app-form__form-control">
+      <mat-label>First name:</mat-label>
+      <input matInput
+             type="text"
+             placeholder="First name"
+             formControlName="firstName"
+             class="sign-up__form-control"
+             required>
+      <mat-error *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched">
+        <small>{{getErrorMessage('firstName')}}</small>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="app-form__form-control">
+      <mat-label>Last name:</mat-label>
+      <input matInput
+             type="text"
+             placeholder="Last name"
+             formControlName="lastName"
+             class="sign-up__form-control"
+             required
+      />
+      <mat-error *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched">
+        <small>{{getErrorMessage('lastName')}}</small>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="app-form__form-control">
+      <mat-label>E-mail:</mat-label>
+      <input matInput
+             type="email"
+             placeholder="Email"
+             formControlName="email"
+             class="sign-up__form-control"
+             required>
+      <mat-error *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+        <small>{{getErrorMessage('email')}}</small>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="app-form__form-control">
+      <mat-label>Password:</mat-label>
+      <input matInput
+             type="password"
+             placeholder="Password"
+             formControlName="password"
+             class="sign-up__form-control"
+             required
+      />
+      <mat-error *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+        <small>{{getErrorMessage('password')}}</small>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="app-form__form-control">
+      <mat-label>Confirm password:</mat-label>
+      <input matInput
+             type="password"
+             placeholder="Confirm password"
+             formControlName="confirmPassword"
+             class="sign-up__form-control"
+             required
+      />
+      <mat-error *ngIf="form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched">
+        <small>{{getErrorMessage('confirmPassword')}}</small>
+      </mat-error>
+    </mat-form-field>
+
+    <div *ngIf="serviceError">
+      <small class="app-form__error">{{ serviceError }}</small>
+    </div>
+
+    <button
+      class="sign-up__form-btn"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      SUBMIT
+    </button>
+  </form>
+
+  <ng-container *ngIf="successRegistrationMessage">
+    <p>{{successRegistrationMessage}}</p>
+    <a mat-raised-button [routerLink]="[routing.signIn]">Ok</a>
+  </ng-container>
+</div>
+
