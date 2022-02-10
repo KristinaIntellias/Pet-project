@@ -8,6 +8,7 @@ const ArticleSchema = new Schema({
   description: { type: String, required: true },
   content: String,
   usersLikeId: { type: Array, default: [] },
+  tags: { type: Array, default: [] },
 });
 
 const Article = mongoose.model('Article', ArticleSchema, 'articles');

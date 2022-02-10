@@ -17,8 +17,15 @@
 
   <p class="title">{{article.title}}</p>
   <p class="description">{{article.description}}</p>
-  <div class="bottom-line">
-    <a href="#" class="details">Read more...</a>
+  <a [routerLink]="['/']" class="details">Read more...</a>
+  <div class="bottom-line {{!!article.tags?.length}}">
+    <div *ngIf="!!article.tags?.length">
+      <span class="side-bar-text"
+         *ngFor="let tag of article.tags"
+      >
+        #{{ tag }}
+      </span>
+    </div>
 
     <div class="buttons-article">
       <button mat-button class="buttons-article__item" [disabled]="!article.isOwner" (click)="editArticle.emit(article)">

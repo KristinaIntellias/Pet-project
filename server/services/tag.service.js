@@ -8,7 +8,7 @@ class TagService {
   async getAll() {
     return Tag
       .find()
-      .select('_id content userId');
+      .select('_id text');
   }
 
   async getOne(id) {
@@ -17,7 +17,7 @@ class TagService {
     }
     return Tag
       .findById(id)
-      .select('_id content userId');
+      .select('_id text');
   }
 
   async update(tag) {
@@ -26,7 +26,7 @@ class TagService {
     }
     return Tag
       .findByIdAndUpdate(tag._id, tag, {new: true})
-      .select('_id content userId');
+      .select('_id text');
   }
 
   async delete(id) {
@@ -35,7 +35,7 @@ class TagService {
     }
     return Tag
       .findByIdAndDelete(id)
-      .select('_id content userId');
+      .select('_id text');
   }
 }
 

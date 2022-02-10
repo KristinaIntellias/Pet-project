@@ -1,5 +1,4 @@
 export interface Tag {
-  _id?: string;
-  content: string,
-  userId?: string,
+  _id: string;
+  text: string,
 }
