@@ -7,7 +7,7 @@ const dotEnv = require('dotenv');
 
 const apiRouter = require('./server/routes/api.router.js');
 
-const result = dotEnv.config({ path: 'D:\\kristina-project\\server\\.env' });
+const result = dotEnv.config({ path: path.join(__dirname, '/server/.env') });
 if (result.error) {
   throw result.error
 }
@@ -22,7 +22,7 @@ app.use('/api', apiRouter);
 app.use(express.static(path.join(__dirname, '/dist/kristina-project')));
 
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/dist/kristina-project');
+  res.sendFile(__dirname + '/dist/kristina-project/index.html');
 });
 
 app.get('*', (req, res, next) => {
