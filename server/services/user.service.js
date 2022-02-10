@@ -1,8 +1,42 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/User.js');
 
+const saltRounds = 10;
+
 class UserService {
-  async create (user) {
-    return await User.create(user);
+  async signup (user) {
+    const { email, password } = user;
+    const emailExist = await User.findOne({email});
+
+    if (!!emailExist) {
+      throw new Error('Such email is already exist');
+    }
+
+    bcrypt.hash(password, saltRounds, async (err, hash) => {
+      if (err) {
+        return err
+      } else {
+        return await User.create({...user, password: hash});
+      }
+    })
+  }
+
+  async login (user) {
+    const { email, password } = user;
+    const existUser = await User.findOne({email});
+
+    if (!existUser) {
+      throw new Error(`Authorization failed`);
+    }
+
+    const validPassword = bcrypt.compareSync(password, existUser.password);
+    if (!validPassword) {
+      throw new Error('Invalid password');
+    }
+
+    return jwt.sign({id: existUser._id, email: existUser.email}, process.env.SECRET, {expiresIn: '1h'});
   }
 
   async getAll() {
@@ -17,15 +51,6 @@ class UserService {
     }
     return User
       .findById(id)
-      .select('_id firstName LastName email');
-  }
-
-  async update(user) {
-    if (!user._id) {
-      throw new Error('ID has not been specified');
-    }
-    return User
-      .findByIdAndUpdate(user._id, user, {new: true})
       .select('_id firstName LastName email');
   }
 
