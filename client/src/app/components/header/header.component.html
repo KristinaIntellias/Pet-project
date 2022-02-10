@@ -1,9 +1,9 @@
 <nav class="nav-header">
   <a [routerLink]="['/']" class="nav-header__logo">My Blog</a>
   <ul class="nav-header__menu">
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-header__menu-item"><a [routerLink]="['/home']">Home</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-header__menu-item"><a [routerLink]="[routing.home]">Home</a></li>
     <li routerLinkActive="active" class="nav-header__menu-item">
-      <a class="item-with-icon" (click)="openArticleDialog()">
+      <a *ngIf="user" class="item-with-icon" (click)="openArticleDialog()">
         <img
           class="icon"
           src="../../../assets/imgs/pencil-writing.png"
@@ -12,7 +12,10 @@
         />
         New Article
       </a></li>
-    <li routerLinkActive="active" class="nav-header__menu-item"><a [routerLink]="['/sign-in']">User</a></li>
+    <li *ngIf="route === routing.signIn" routerLinkActive="active" class="nav-header__menu-item"><a [routerLink]="[routing.signUp]">Sign Up</a></li>
+    <li *ngIf="route === routing.signUp" routerLinkActive="active" class="nav-header__menu-item"><a [routerLink]="[routing.signIn]">Login</a></li>
+    <li *ngIf="!!user && route !== routing.signIn && route !== routing.signUp" routerLinkActive="active" class="nav-header__menu-item">
+      <a [routerLink]="[routing.signIn]" (click)="logout()">Log Out</a></li>
   </ul>
 </nav>
 

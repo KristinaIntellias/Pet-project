@@ -62,7 +62,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    const sub = this.userService.getUser().subscribe((user: User) => this.user = user);
+    const sub = this.userService.getUser().subscribe((user: User | null) => {
+      if (!!user) {
+        this.user = user
+      }
+    });
 
     this.sub.add(sub);
   }

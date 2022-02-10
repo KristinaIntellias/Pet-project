@@ -12,13 +12,13 @@ class ArticleService {
       return Article
         .find(        { tags: { $in: [query.tags] } })
         .select('_id author date title description content usersLikeId tags')
-        .populate('author', '_id firstName LastName email')
+        .populate('author', '_id firstName lastName email')
         .sort({date: -1});
     } else {
       return Article
         .find(        {})
         .select('_id author date title description content usersLikeId tags')
-        .populate('author', '_id firstName LastName email')
+        .populate('author', '_id firstName lastName email')
         .sort({date: -1});
     }
   }
@@ -30,7 +30,7 @@ class ArticleService {
     return Article
       .findById(id)
       .select('_id author date title description content usersLikeId tags')
-      .populate('author', '_id firstName LastName email');
+      .populate('author', '_id firstName lastName email');
   }
 
   async update(article) {
@@ -40,7 +40,7 @@ class ArticleService {
     return Article
       .findByIdAndUpdate(article._id, article, {new: true})
       .select('_id author date title description content usersLikeId tags')
-      .populate('author', '_id firstName LastName email');
+      .populate('author', '_id firstName lastName email');
   }
 
   async delete(id) {
@@ -50,7 +50,7 @@ class ArticleService {
     return Article
       .findByIdAndDelete(id)
       .select('_id author date title description content usersLikeId tags')
-      .populate('author', '_id firstName LastName email');
+      .populate('author', '_id firstName lastName email');
   }
 }
 

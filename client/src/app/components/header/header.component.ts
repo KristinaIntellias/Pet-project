@@ -1,14 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, Subscription, throwError } from "rxjs";
-import { catchError, filter, switchMap } from "rxjs/operators";
+import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { HttpErrorResponse } from "@angular/common/http";
+import { NavigationEnd, Router } from "@angular/router";
 
 import { ArticleDialogComponent } from "../article-dialog/article-dialog.component";
 import { ArticlesService } from "../../services/articles.service";
 import { Article } from "../../models/article.model";
 import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
+import {RoutingEnum} from "../../models/routing.model";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -17,16 +20,20 @@ import { UserService } from "../../services/user.service";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
+    public router: Router,
     private dialog: MatDialog,
     private articlesService: ArticlesService,
+    private authService: AuthService,
     private userService: UserService,
   ) {}
 
+  public route!: string;
+  public routing = RoutingEnum;
+  public user!: User;
   private sub = new Subscription();
-  private user!: User;
 
   ngOnInit(): void {
-    this.getUser();
+    this.getRoute();
   }
 
   openArticleDialog(): void {
@@ -44,6 +51,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sub.add(sub);
   };
 
+  logout(): void {
+    this.authService.logOut();
+  }
+
   ngOnDestroy (): void {
     this.sub?.unsubscribe();
   }
@@ -52,8 +63,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return throwError(error);
   }
 
+  private getRoute(): void {
+    const sub = this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        map(event => event.url)
+      )
+      .subscribe((url: string) => {
+        this.route = url
+        this.getUser();
+      });
+
+    this.sub.add(sub);
+  }
+
   private getUser(): void {
-    const sub = this.userService.getUser().subscribe((user: User) => this.user = user);
+    const sub = this.userService.getUser().subscribe((user: User | null) => {
+      if (!!user) {
+        this.user = user
+      }
+    });
 
     this.sub.add(sub);
   }

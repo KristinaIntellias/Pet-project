@@ -18,12 +18,15 @@ export class ArticlesService {
   }
 
   normalizeArticles(articles: Article[], id: string): Observable<Article[]> {
-    return of(articles.map((article: Article) => {
-        return {...article, isOwner: id === article.author._id};
-      }))
+    return of(articles
+      .filter((article: Article) => !!article.author)
+      .map((article: Article) => {
+        return {...article, isOwner: id === article.author._id}
+        })
+    )
   }
 
-  addArticle(article: Article): Observable<Article> {
+  addArticle(article: Article): Observable<any> {
     return this.http.post<Article>(this.url, {...article, usersLike: []});
   }
 
